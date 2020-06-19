@@ -227,7 +227,7 @@ def vdsr(input_size=(256,256,3)):    #modify to 1 channel if using grayscale ima
 
 #%% a shallow custom architecture following vdsr residual learning strategy
 
-def vdsr_small(input_size=(256,256,3)):     #modify to 1 channel if using grayscale images
+def custom_small(input_size=(256,256,3)):     #modify to 1 channel if using grayscale images
     model_input = Input(shape=(256,256,3))  #modify to 1 channel if using grayscale images
     model = BatchNormalization()(model_input)
     model = Conv2D(8, (3, 3), padding='same', activation='relu')(model)
@@ -235,7 +235,6 @@ def vdsr_small(input_size=(256,256,3)):     #modify to 1 channel if using graysc
     model = Conv2D(32, (3, 3), padding='same', activation='relu')(model)
     model = Conv2D(64, (3, 3), padding='same', activation='relu', dilation_rate=2)(model)
     model = Conv2D(128, (3, 3), padding='same', activation='relu', dilation_rate=2)(model)
-    model = Conv2D(256, (3, 3), padding='same', activation='relu', dilation_rate=2)(model)
     model = Conv2D(3, (3, 3), padding='same')(model)  #modify to 1 channel if using grayscale images
     res_img = model
     output_img = add([res_img, model_input])
