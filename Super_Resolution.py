@@ -238,7 +238,7 @@ def custom_small(input_size=(256,256,3)):     #modify to 1 channel if using gray
     model = Conv2D(3, (3, 3), padding='same')(model)  #modify to 1 channel if using grayscale images
     res_img = model
     output_img = add([res_img, model_input])
-    model = Model(inputs = model_input, outputs = output_img, name='VDSRCNN_opt')
+    model = Model(inputs = model_input, outputs = outputimg, name='hydra')
     return model
 
 #%% declare input parameters and data
