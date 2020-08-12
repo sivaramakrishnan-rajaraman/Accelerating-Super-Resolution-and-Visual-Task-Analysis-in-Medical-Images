@@ -23,3 +23,9 @@ We propose to compute the residual image from the raw image (RGB or grayscale) d
 We propose to train the proposed SISR model using a loss function that combines the advantages of the mean absolute error (MAE) and the Multi-scale Structural Similarity (MS-SSIM). Our experimental results show that MAE can better assess the average model performance as compared to other loss metrics. Also, our experimental results show that
 the MS-SSIM preserves the contrast in high-frequency regions better than other loss functions (e.g., SSIM). To capture the best characteristics of both loss functions, we propose to combine both loss terms (MAE + MS-SSIM).
 
+
+If you are using these codes for your research, kindly cite this publication where the details of the proposed aoproach are discussed and evaluated. 
+
+## Zamzmi, G.; Rajaraman, S.; Antani, S. Accelerating Super-Resolution and Visual Task Analysis in Medical Images. Appl. Sci. 2020, 10, 4282.
+
+
