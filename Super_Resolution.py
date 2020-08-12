@@ -59,7 +59,7 @@ def load_images_test(name, size):
         image = Image.open(name+file)
         if image.mode != "RGB":
             image.convert("RGB")
-        x_image = image.resize((size[0]//2, size[1]//2)) #change to 3, 4, and 8 for varying scale factors
+        x_image = image.resize((size[0]//2, size[1]//2)) #change to 3, 4, or 8 for varying scale factors
         x_image = x_image.resize(size, Image.BICUBIC) 
         x_image = np.array(x_image)
         y_image = image.resize(size)
@@ -70,8 +70,8 @@ def load_images_test(name, size):
     y_images = np.array(y_images)
     x_images = x_images / 255
     y_images = y_images / 255
-    x_images = x_images.reshape(x_images.shape[0], size[0]//1, size[1]//1, 3) #for grayscale, change the channels to 1
-    y_images = y_images.reshape(y_images.shape[0], size[0]//1, size[1]//1, 3) #for grayscale, change the channels to 1
+    x_images = x_images.reshape(x_images.shape[0], size[0]//1, size[1]//1, 3) #for grayscale, change the number of channels to 1
+    y_images = y_images.reshape(y_images.shape[0], size[0]//1, size[1]//1, 3) #for grayscale, change the number of channels to 1
     return x_images, y_images
 
 def load_images_train(name, size):
@@ -119,8 +119,8 @@ def load_images_train(name, size):
     y_images = np.array(y_images)
     x_images = x_images / 255
     y_images = y_images / 255
-    x_images = x_images.reshape(x_images.shape[0], size[0]//1, size[1]//1, 3) #for grayscale, change the channels to 1
-    y_images = y_images.reshape(y_images.shape[0], size[0]//1, size[1]//1, 3) #for grayscale, change the channels to 1
+    x_images = x_images.reshape(x_images.shape[0], size[0]//1, size[1]//1, 3) #for grayscale, change the number of channels to 1
+    y_images = y_images.reshape(y_images.shape[0], size[0]//1, size[1]//1, 3) #for grayscale, change the number of channels to 1
     return x_images, y_images
 
 #%% #define loss functions
@@ -235,6 +235,7 @@ def custom_small(input_size=(256,256,3)):     #modify to 1 channel if using gray
     model = Conv2D(32, (3, 3), padding='same', activation='relu')(model)
     model = Conv2D(64, (3, 3), padding='same', activation='relu', dilation_rate=2)(model)
     model = Conv2D(128, (3, 3), padding='same', activation='relu', dilation_rate=2)(model)
+    model = Conv2D(256, (3, 3), padding='same', activation='relu', dilation_rate=2)(model)
     model = Conv2D(3, (3, 3), padding='same')(model)  #modify to 1 channel if using grayscale images
     res_img = model
     output_img = add([res_img, model_input])
@@ -250,7 +251,7 @@ input_dirname = to_dirname('data/train/')
 test_dirname = to_dirname('data/test') 
 x_images, y_images = load_images_train(input_dirname, image_size)
 x_test, y_test = load_images_test(test_dirname, image_size)
-model = vdsr() #change to vdsr_small if suing custom architecture to train
+model = vdsr() #change to custom_small if using custom architecture to train
 model.summary()
 gpu_model = ModelMGPU(model,2) #use this only for multi-gpu training
     
@@ -296,7 +297,7 @@ loaded_model.summary()
 img = Image.open('data/test/9948_right.png')
 img = img.resize((256,256)) #modify depending on resolution
 img1 = image.img_to_array(img)
-img_down = img.resize((256//2, 256//2)) #for scale factor of 2, modify for 3, 4, and 8
+img_down = img.resize((256//2, 256//2)) #for scale factor of 2, modify for 3, 4, or 8
 img_down = img_down.resize((256,256), Image.BICUBIC) #interpolation to upsample to original dimension
 x = image.img_to_array(img_down)
 x = x.astype('float32') / 255
