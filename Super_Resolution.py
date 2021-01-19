@@ -1,4 +1,4 @@
-#super-resolution code
+#super-resolution code using custom SISR models
 #%% load libraries
 
 import tensorflow as tf
